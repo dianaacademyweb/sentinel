@@ -2,6 +2,8 @@ from django.db import models
 
 from api.user.models import User
 
+from django.utils import timezone
+
 # Create your models here.
     
  
@@ -142,15 +144,18 @@ class WorkProductivityDataset(models.Model):
         db_table = "WorkProductivityDataset"    
         
 class AttendanceLogs(models.Model):
-    atendance_date = models.CharField(max_length=55)
-    attendance_time = models.CharField(max_length=55)
-    attendance_status = models.CharField(max_length=55)
-    attendance_ip_address = models.CharField(max_length=55)
-    attendance_time_zone = models.CharField(max_length=55)
-    attendance_lat = models.CharField(max_length=55)
-    attendance_long = models.CharField(max_length=55)
-    employe_id = models.ForeignKey(Employe, on_delete=models.CASCADE)
-    orgnisation_id = models.ForeignKey(User, on_delete=models.CASCADE)    
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField(default=timezone.now)
+    login_time = models.DateTimeField( default=timezone.now)
+    logout_time = models.DateTimeField(default=timezone.now)
+    status = models.CharField(max_length=20 , default=timezone.now)  
     class Meta:
-        db_table = "AttendanceLogs"                       
+        db_table = "AttendanceLogs"    
+        
+        
+        
+        
+class screenshotsModel(models.Model):
+    organization_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    image = models.FileField(upload_to='images/' )     
+    time =  models.TimeField( auto_now=True, auto_now_add=False)                        
