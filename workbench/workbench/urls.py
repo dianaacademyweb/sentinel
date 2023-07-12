@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
 
-from api.dashboard.viewset import ProjectAPIView , EmployeListAPIView , BoardlistApi,ProjectListAPIView,boardwisetask,employewiseMonitoring,Seeimage,Seeprofile,TaskdetailsViews, Seeteams, boardwiseteams, TeamlistApi,Seescreenshots,AttendanceSubmissionView
+from api.dashboard.viewset import ProjectAPIView , EmployeListAPIView , BoardlistApi,ProjectListAPIView,boardwisetask,employewiseMonitoring,Seeimage,Seeprofile,TaskdetailsViews, Seeteams, boardwiseteams, TeamlistApi,Seescreenshots,Attendancelist
 # from rest_framework_simplejwt.views import (
 #     TokenObtainPairView,
 #     TokenRefreshView,
@@ -31,7 +31,7 @@ urlpatterns = [
     path('api/verify-email/', EmailVerificationView.as_view(), name='email-verify'),
     
     path('api/dashboard/Seescreenshots/<int:id>/', Seescreenshots.as_view(), name = 'seeimage' ),
-    path('api/dashboard/attendance/', AttendanceSubmissionView.as_view(), name='attendance_submission'),
+    path('api/dashboard/attendancelist/<int:id>/', Attendancelist.as_view(), name='attendance_list'),
     path('admin/', admin.site.urls),
 ]
 if settings.DEBUG:

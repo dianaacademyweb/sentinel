@@ -145,10 +145,10 @@ class WorkProductivityDataset(models.Model):
         
 class AttendanceLogs(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateField(default=timezone.now)
-    login_time = models.DateTimeField( default=timezone.now)
-    logout_time = models.DateTimeField(default=timezone.now)
-    status = models.CharField(max_length=20 , default=timezone.now)  
+    date = models.DateTimeField( auto_now_add=True)
+    login_time = models.DateTimeField(  auto_now_add=True )
+    logout_time = models.DateTimeField( auto_now_add=True)
+    work_status= models.CharField(max_length=120) 
     class Meta:
         db_table = "AttendanceLogs"    
         

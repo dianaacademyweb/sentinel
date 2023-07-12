@@ -411,47 +411,24 @@ class Seescreenshots(APIView):
         return Response(serializer.data)   
     
     
-class AttendanceSubmissionView(APIView):
-    def post(self, request):
-        user = request.user  # Assuming you have implemented authentication
-        date = request.data.get('date')
-        status = request.data.get('status')
-        time = datetime.now()
-
-        # Retrieve the attendance record for the given user and date
-        try:
-            attendance = AttendanceLogs.objects.get(user=user, date=date)
-        except AttendanceLogs.DoesNotExist:
-            attendance = None
-
-        if status == 'login':
-            if attendance and attendance.attendance_logintime:
-                return Response({'error': 'Login time already recorded for this date'}, status=status.HTTP_400_BAD_REQUEST)
-
-            if not attendance:
-                attendance = AttendanceLogs(user=user, date=date)
-
-            attendance.attendance_logintime = time
-            attendance.attendance_status = 'Present'
-            attendance.save()
-
-            return Response({'message': 'Login time recorded successfully'}, status=status.HTTP_201_CREATED)
-
-        elif status == 'logout':
-            if not attendance or not attendance.attendance_logintime:
-                return Response({'error': 'Login time missing. Please record the login time first'}, status=status.HTTP_400_BAD_REQUEST)
-
-            if attendance.attendance_logouttime:
-                return Response({'error': 'Logout time already recorded for this date'}, status=status.HTTP_400_BAD_REQUEST)
-
-            attendance.attendance_logouttime = time
-            attendance.save()
-
-            return Response({'message': 'Logout time recorded successfully'}, status=status.HTTP_200_OK)    
+    
     
 class AttendanceViewset(viewsets.ModelViewSet):
      queryset = AttendanceLogs.objects.all()
-     serializer_class =  AttendanceSerilizer
+     serializer_class =  AttendanceLogs
+     
+     
+     
+class Attendancelist(APIView):
+    def get(self ,request , id , formate =None):
+        queryset = AttendanceLogs.objects.filter(user = id )
+        serializer = AttendanceSerilizer(queryset, many = True)
+        return Response(serializer.data)   
+         
+     
+     
+     
+     
  
     
     
